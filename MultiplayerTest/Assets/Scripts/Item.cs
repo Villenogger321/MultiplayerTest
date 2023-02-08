@@ -13,6 +13,19 @@ public class Item : MonoBehaviour
 public class ItemBaseInfo
 {
     public string Name;
-    public bool PickupAble;
-    
+    public bool PickupAble = true;
+    public bool TrayAble;   // can be placed on tray,      great variable name :-)
+    public float heightOffset;
+    [Header("Cooking Info")]
+    public float CookTime;
+    public float BurnTime;
+    public CookStage Stage;
+
+
+    public enum CookStage
+    {
+        Raw,
+        Cooked,
+        Burnt
+    }
 }
