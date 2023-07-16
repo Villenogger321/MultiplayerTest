@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1913785697}
   - component: {fileID: 1913785699}
   - component: {fileID: 1913785698}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tomato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1913785696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   _networkBehaviours:
   - {fileID: 1913785697}
+  - {fileID: 1913785698}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   _isNetworked: 1
@@ -142,7 +143,7 @@ MonoBehaviour:
   _predictedSpawningType: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 7
+  <PrefabId>k__BackingField: 12
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 584410112
   <SceneId>k__BackingField: 0
@@ -151,8 +152,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1913785696}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1913785696}
   - {fileID: 0}
   - {fileID: 0}
 --- !u!114 &1913785697
@@ -192,7 +194,7 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
-  _synchronizeScale: 1
+  _synchronizeScale: 0
   _scaleSnapping:
     X: 0
     Y: 0
@@ -213,9 +215,9 @@ MonoBehaviour:
     Name: Tomato
     PickupAble: 1
     TrayAble: 1
-    heightOffset: 0.01
+    heightOffset: 0.0075
     CookTime: 0
-    BurnTime: 30
+    BurnTime: 3
     Stage: 0
   IsHeld: 0
 --- !u!114 &1913785698
@@ -230,5 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae95fbed34d1a14c95ab5e1deb64793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burntMat: {fileID: 2100000, guid: 61ea6cb4ad356b44982186d51f2b15e3, type: 2}
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 1913785696}
+  _networkObjectCache: {fileID: 1913785696}
   cookedMat: {fileID: 0}

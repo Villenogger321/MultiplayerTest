@@ -117,7 +117,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &500494932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   _networkBehaviours:
   - {fileID: 500494931}
+  - {fileID: 500494939}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   _isNetworked: 1
@@ -142,18 +143,19 @@ MonoBehaviour:
   _predictedSpawningType: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 2
+  <PrefabId>k__BackingField: 7
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 584410112
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 8428001398379041654
   _sceneNetworkObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 500494932}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
 --- !u!114 &500494931
 MonoBehaviour:
@@ -177,7 +179,7 @@ MonoBehaviour:
     Scale: 0
   _interpolation: 2
   _extrapolation: 2
-  _enableTeleport: 1
+  _enableTeleport: 0
   _teleportThreshold: 1
   _clientAuthoritative: 1
   _sendToOwner: 1
@@ -230,5 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae95fbed34d1a14c95ab5e1deb64793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burntMat: {fileID: 2100000, guid: 61ea6cb4ad356b44982186d51f2b15e3, type: 2}
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 500494932}
+  _networkObjectCache: {fileID: 500494932}
   cookedMat: {fileID: 2100000, guid: 35ce8a9c071c0e34aa7a1c05a7afe11c, type: 2}

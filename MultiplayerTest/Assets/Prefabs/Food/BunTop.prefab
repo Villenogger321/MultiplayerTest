@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1828728590}
   - component: {fileID: 1828728592}
   - component: {fileID: 1828728591}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BunTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1828728589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   _networkBehaviours:
   - {fileID: 1828728590}
+  - {fileID: 1828728591}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   _isNetworked: 1
@@ -150,8 +151,9 @@ MonoBehaviour:
   _sceneNetworkObjects:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1828728589}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1828728589}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -192,7 +194,7 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
-  _synchronizeScale: 1
+  _synchronizeScale: 0
   _scaleSnapping:
     X: 0
     Y: 0
@@ -230,5 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae95fbed34d1a14c95ab5e1deb64793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burntMat: {fileID: 2100000, guid: 61ea6cb4ad356b44982186d51f2b15e3, type: 2}
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 1828728589}
+  _networkObjectCache: {fileID: 1828728589}
   cookedMat: {fileID: 0}

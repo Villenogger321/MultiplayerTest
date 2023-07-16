@@ -35,8 +35,16 @@ public class Cook : NetworkBehaviour
 
         cookTimer += Time.fixedDeltaTime;
 
-        CookObject();
-        BurnObject();
+        if (item.Info.Stage == ItemBaseInfo.CookStage.Raw)
+        {
+            CookObject();
+            return;
+        }
+        if (item.Info.Stage == ItemBaseInfo.CookStage.Cooked)
+        {
+            BurnObject();
+            return;
+        }
 
         
     }
@@ -49,18 +57,28 @@ public class Cook : NetworkBehaviour
             return;
         }
         else if (cookTimer >= cookTime)
-            FinishCookObjectServer();
+        {
+            item.Info.Stage = ItemBaseInfo.CookStage.Cooked;
+            item.Info.Name = "CookedBurger";
+        }
     }
     void BurnObject()
     {
         if (burnTime > 0 && cookTimer >= burnTime) // can be burnt
         {
+            item.Info.Stage = ItemBaseInfo.CookStage.Burnt;
+
+            GameObject fire = GameObject.Instantiate(foodManager.PSFire, transform);
+            fire.transform.localPosition = new Vector3();
+            InstanceFinder.ServerManager.Spawn(fire);
+
             BurnObjectServer();
+            this.enabled = false;
             return;
         }
     }
 
-    
+    #region ObserverRPCS
     [ObserversRpc]
     void CookObjectObserver()
     {
@@ -71,19 +89,15 @@ public class Cook : NetworkBehaviour
     [ObserversRpc]
     void FinishCookObjectObserver()
     {
-        item.Info.Stage = ItemBaseInfo.CookStage.Cooked;
+        
     }
 
     [ObserversRpc]
     void BurnObjectObserver()
     {
         rend.material = foodManager.BurntMaterial;
-        item.Info.Stage = ItemBaseInfo.CookStage.Burnt;
-        GameObject fire = GameObject.Instantiate(foodManager.PSFire, transform);
-        InstanceFinder.ServerManager.Spawn(fire);
-        this.enabled = false;   
     }
-
+    #endregion
     #region ServerRPCS
     [ServerRpc(RequireOwnership = false)]
     void CookObjectServer()

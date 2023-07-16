@@ -7,13 +7,19 @@ public class Tray : NetworkBehaviour
 {
     [SerializeField] List<Item> content;
     [SerializeField] float offset;
-    void Start()
+    [SerializeField] bool isClean = true;
+    [SerializeField] Material cleanMat, dirtyMat;
+   
+    public Item[] GetContent()
     {
-        
+        return content.ToArray();
     }
 
     void OnTriggerEnter(Collider col)
     {
+        if (!base.IsHost)
+            return;
+
         if (col.GetComponent<Item>() is Item _item)
         {
             if (_item.Info.TrayAble)
@@ -22,12 +28,13 @@ public class Tray : NetworkBehaviour
             }
         }
     }
-    [ServerRpc(RequireOwnership = false)]
-    void PlaceOnTrayServer(Transform _obj)
+    public void CleanTray()
     {
-        PlaceOnTrayObserver(_obj);
+        if (!isClean)
+            CleanTrayServer(transform);
     }
 
+    #region ObserverRPCS
     [ObserversRpc]
     void PlaceOnTrayObserver(Transform _obj)
     {
@@ -57,4 +64,26 @@ public class Tray : NetworkBehaviour
         _item.Info.PickupAble = false;  // failsafe not pickupable
 
     }
+
+    [ObserversRpc]
+    void CleanTrayObserver(Transform _obj)
+    {
+        _obj.GetComponent<MeshRenderer>().material = cleanMat;
+        // add soap particles :)
+    }
+    #endregion
+
+
+    #region ServerRPCS
+    [ServerRpc(RequireOwnership = false)]
+    void PlaceOnTrayServer(Transform _obj)
+    {
+        PlaceOnTrayObserver(_obj);
+    }
+    [ServerRpc(RequireOwnership = false)]
+    void CleanTrayServer(Transform _obj)
+    {
+        CleanTrayObserver(_obj);
+    }
+    #endregion
 }
