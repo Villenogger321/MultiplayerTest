@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using FishNet;
 using FishNet.Object;
+using UnityEngine.InputSystem;
+using FishNet.Example.Scened;
+using UnityEditor.Rendering.LookDev;
 
 public class PlayerPickup : NetworkBehaviour
 {
     [SerializeField] Transform pickupSlot;
     [SerializeField] float pickupDistance = 2f;
     [SerializeField] LayerMask pickupMask;
-    Transform cam;
 
+    bool chargeThrow;
+    [SerializeField] float throwStrength = 0;
+    [SerializeField] int throwIncreasement = 10;
+    [SerializeField] int maxThrowStrength = 300;
+
+    [SerializeField] int rotateAmt = 45;
+    Transform cam;
+    PlayerAction playerAction;
     public override void OnStartClient()    // make sure only owner can run script
     {
         base.OnStartClient();
@@ -32,15 +42,44 @@ public class PlayerPickup : NetworkBehaviour
             DropObjectServer(getHeldObject());
         }
     }
-    void OnInteract()   // on interact key (e - default)
+    void OnInteract(InputAction.CallbackContext context)   // on interact key (e - default)
     {
         if (!base.IsOwner)
             return;
 
-        if (holdingObject())
-            DropObjectServer(getHeldObject());
-        else
+        if (holdingObject())    // holding an object
+        {
+
+            if (context.phase == InputActionPhase.Performed)    // on key press
+            {
+                // start charging throw
+                chargeThrow = true;
+            }
+            else if (context.phase == InputActionPhase.Canceled)    // on key release
+            {
+                DropObjectServer(getHeldObject());
+            }
+        }
+        else    // not holding an object, try picking one up
+        {
             TryPickup();
+        }
+    }
+
+    void Update()
+    {
+        if (chargeThrow)
+        {
+            throwStrength = Mathf.Clamp(throwStrength + (throwIncreasement * Time.deltaTime), 0, maxThrowStrength);
+        }
+    }
+    public void OnScroll(InputAction.CallbackContext context)
+    {
+        float _rotAmt = context.ReadValue<float>();
+
+        _rotAmt = (2 * (_rotAmt - -120) / (120 - -120)) - 1;
+        print(_rotAmt);
+        pickupSlot.Rotate(Vector3.right, _rotAmt * rotateAmt);
     }
     bool holdingObject()
     {
@@ -77,7 +116,7 @@ public class PlayerPickup : NetworkBehaviour
     void PickupObjectObserver(Transform _obj, Transform _pos, GameObject _player)
     {
         _obj.position = _pos.position;
-        _obj.rotation = _pos.rotation;
+        //_obj.rotation = _pos.rotation;
 
         _obj.transform.parent = _pos;
         if (_obj.GetComponent<Collider>() is Collider _col)
@@ -102,11 +141,15 @@ public class PlayerPickup : NetworkBehaviour
         if (_obj.GetComponent<Collider>() is Collider _col)
             _col.enabled = true;
 
-        if (_obj.GetComponent<Rigidbody>() is Rigidbody _rb)
-            _rb.isKinematic = false;
-
         if (_obj.GetComponent<Item>() is Item _item)
             _item.IsHeld = false;
-    }
 
+        if (_obj.GetComponent<Rigidbody>() is Rigidbody _rb)
+        {
+            _rb.isKinematic = false;
+            _rb.AddForce(cam.forward * throwStrength);
+        }
+        chargeThrow = false;
+        throwStrength = 0;
+    }
 }

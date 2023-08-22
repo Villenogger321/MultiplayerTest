@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using System;
 using FishNet.Object;
+using UnityEditor.Experimental.GraphView;
 
 public class Customer : NetworkBehaviour
 {
@@ -66,7 +67,8 @@ public class Customer : NetworkBehaviour
     public void SetSeat(Seat _seat)
     {
         seat = _seat;
-
+        
+        seat.delivery.GetComponent<Delivery>().SetCustomer(this);
         destination = seat.table.destination;
     }
     // after finishing food/not getting food set new destination and state to walking

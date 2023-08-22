@@ -76,9 +76,9 @@ public class PlayerMovement : NetworkBehaviour
     {
         
     }
-    void OnMove(InputValue _value)
+    void OnMove(InputAction.CallbackContext context)
     {
-        movementInput = _value.Get<Vector2>();
+        movementInput = context.ReadValue<Vector2>();
     }
 
     private void MovePlayer()
