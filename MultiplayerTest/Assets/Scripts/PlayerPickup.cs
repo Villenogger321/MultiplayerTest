@@ -4,8 +4,6 @@ using UnityEngine;
 using FishNet;
 using FishNet.Object;
 using UnityEngine.InputSystem;
-using FishNet.Example.Scened;
-using UnityEditor.Rendering.LookDev;
 
 public class PlayerPickup : NetworkBehaviour
 {
@@ -57,6 +55,8 @@ public class PlayerPickup : NetworkBehaviour
             }
             else if (context.phase == InputActionPhase.Canceled)    // on key release
             {
+                if (chargeThrow == false)
+                    return;
                 DropObjectServer(getHeldObject());
             }
         }
@@ -78,7 +78,6 @@ public class PlayerPickup : NetworkBehaviour
         float _rotAmt = context.ReadValue<float>();
 
         _rotAmt = (2 * (_rotAmt - -120) / (120 - -120)) - 1;
-        print(_rotAmt);
         pickupSlot.Rotate(Vector3.right, _rotAmt * rotateAmt);
     }
     bool holdingObject()
