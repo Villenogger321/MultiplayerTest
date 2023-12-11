@@ -18,7 +18,13 @@ public class PlayerCameraMovement : NetworkBehaviour
         base.OnStartClient();
 
         if (!base.IsOwner)
-            gameObject.SetActive(false);
+        {
+            this.GetComponent<Camera>().enabled = false;
+            this.GetComponent<AudioListener>().enabled = false;
+            this.GetComponent<PlayerInput>().enabled = false;
+            this.enabled = false;
+        }
+            
     }
 
     void Start()

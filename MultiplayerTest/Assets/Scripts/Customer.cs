@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using System;
 using FishNet.Object;
-using UnityEditor.Experimental.GraphView;
 
 public class Customer : NetworkBehaviour
 {
