@@ -9,8 +9,10 @@ public class Table : MonoBehaviour
     public Seat[] seats;
     public Vector3 destination;
 
-    void Start()
+    void Awake()
     {
+        seatCount = seats.Length;
+
         for (int i = 0; i < seats.Length; i++)
         {
             seats[i].location = transform.GetChild(1).GetChild(i).position;
@@ -20,7 +22,10 @@ public class Table : MonoBehaviour
         }
 
         destination = transform.GetChild(0).transform.position;
-        seatCount = seats.Length;
+    }
+    void Start()
+    {
+        OrderManager.Instance.AddTable(this);
     }
 }
 [Serializable]

@@ -32,6 +32,8 @@ public class PlayerMovement : NetworkBehaviour
 
         if (!base.IsOwner)
             this.enabled = false;
+
+        gameObject.tag = "Player";
     }
 
     private void Start()

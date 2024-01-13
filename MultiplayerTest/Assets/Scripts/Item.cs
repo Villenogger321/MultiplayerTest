@@ -13,6 +13,7 @@ public class Item : MonoBehaviour
 public class ItemBaseInfo
 {
     public string Name;
+    public float Value = 1; // whatever value the object has, "maybe future sell value"
     public bool PickupAble = true;
     public bool TrayAble;   // can be placed on tray,      great variable name :-)
     public float heightOffset;

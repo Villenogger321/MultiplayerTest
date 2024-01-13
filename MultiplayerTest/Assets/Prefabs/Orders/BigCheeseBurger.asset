@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76cfe051ceaf1534e82da5040c9f8162, type: 3}
-  m_Name: BigCheeseBurger
+  m_Name: BigCheeseburger
   m_EditorClassIdentifier: Assembly-CSharp::OrderPreset
-  OrderName: Big Cheese
+  OrderName: Big Cheeseburger
   TrayNameOrder:
   - BottomBun
   - CookedBurger

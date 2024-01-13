@@ -21,10 +21,28 @@ public class OrderManager : NetworkBehaviour
 
     [SerializeField] Transform[] spawnpoints;
 
+    public static OrderManager Instance;
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if (!base.IsHost)
+            this.enabled = false;
+    }
+
     void Start()
     {
         GetAllSeats();
-        GetAllAvailableSeats();
+        UpdateAvailableSeats();
         spawnpoints = transform.GetChild(0).GetComponentsInChildren<Transform>();
     }
 
@@ -41,7 +59,7 @@ public class OrderManager : NetworkBehaviour
             return;
         }
 
-        GetAllAvailableSeats();
+        UpdateAvailableSeats();
         
         if (availableSeats.Count <= 0)
         {
@@ -58,7 +76,7 @@ public class OrderManager : NetworkBehaviour
         Customer customer = Instantiate(CustomerGO).GetComponent<Customer>();
         InstanceFinder.ServerManager.Spawn(customer.gameObject);
 
-        customer.Order = order;
+        customer.SetOrder(order);
         Seat tempSeat = GetRandomAvailableSeat();
 
         customer.SetSeat(tempSeat);
@@ -83,8 +101,9 @@ public class OrderManager : NetworkBehaviour
                 allSeats.Add(tables[i].seats[e]);
             }   // i = table
         }       // e = seat
+        UpdateAvailableSeats();
     }
-    void GetAllAvailableSeats()
+    public void UpdateAvailableSeats()
     {
         availableSeats.Clear();
 
@@ -93,13 +112,17 @@ public class OrderManager : NetworkBehaviour
             if (!allSeats[i].taken)
                 availableSeats.Add(allSeats[i]);
         }
+        if (availableSeats.Count > 0)
+            readyForOrder = true;
     }
     public void AddTable(Table _table)
     {
         tables.Add(_table);
+        GetAllSeats();
     }
     public void RemoveTable(Table _table)
     {
         tables.Remove(_table);  // will probably need to refresh the list ?
+        GetAllSeats();
     }
 }
